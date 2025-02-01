@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  id           Int           @id @default(autoincrement())
+  name         String
+  date         DateTime
+  location     String
+  description  String?       @db.Text
+  capacity     Int
+  participants Participant[]
+  feedback     Feedback[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([date])
+}
+
+model Participant {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  role      Role     @default(STARTUP)
+  eventId   Int
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([email, eventId])
+  @@index([email])
+  @@index([eventId])
+}
+
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  rating    Int      @default(0)
+  comment   String?  @db.Text
+  eventId   Int
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([eventId])
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  fullName    String
+  email       String   @unique
+  password    String
+  role1       Role     @default(STARTUP)
+  role2       Role2    @default(USER)
+  phoneNumber String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([email])
+}
+
+enum Role {
+  STARTUP
+  INVESTOR
+  MENTOR
+  OTHER
+}
+
+enum Role2 {
+  ADMIN
+  USER
+} 
