@@ -9,6 +9,10 @@
       "use": "@vercel/node"
     },
     {
+      "src": "pages/api/**/*.ts",
+      "use": "@vercel/node"
+    },
+    {
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": { "distDir": "dist" }
@@ -16,8 +20,20 @@
   ],
   "routes": [
     {
+      "src": "/api/auth/(.*)",
+      "dest": "/pages/api/auth/$1.ts"
+    },
+    {
+      "src": "/api/users/(.*)",
+      "dest": "/pages/api/users/$1.ts"
+    },
+    {
+      "src": "/api/events/(.*)",
+      "dest": "/pages/api/events.ts"
+    },
+    {
       "src": "/api/(.*)",
-      "dest": "server.js"
+      "dest": "/server.js"
     },
     {
       "src": "/(.*)",

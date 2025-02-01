@@ -10,9 +10,18 @@ app.use(express.json());
 
 // Global CORS middleware
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3039');
+  const allowedOrigins = [
+    'http://localhost:3039',
+    'https://networking-system.vercel.app'
+  ];
+  const origin = req.headers.origin;
+  
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, user-id');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, user-id, user-role');
   
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
