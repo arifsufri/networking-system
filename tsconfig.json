@@ -4,7 +4,7 @@
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "strict": true,
-    "noEmit": true,
+    "noEmit": false,
     "allowJs": true,
     "module": "ESNext",
     "jsx": "react-jsx",
@@ -19,7 +19,8 @@
     "noFallthroughCasesInSwitch": true,
     "useUnknownInCatchVariables": false,
     "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "dist"
   },
   "include": ["src"],
   "exclude": ["node_modules"],
