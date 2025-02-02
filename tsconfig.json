@@ -20,7 +20,7 @@
     "useUnknownInCatchVariables": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "dist"
+    "outDir": "./build"
   },
   "include": ["src"],
   "exclude": ["node_modules"],
