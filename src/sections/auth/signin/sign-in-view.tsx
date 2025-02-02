@@ -40,8 +40,7 @@ export function SignInView() {
       setLoading(true);
       setError('');
 
-      const apiUrl = import.meta.env.VITE_HOST_API || '';
-      const response = await fetch(`${apiUrl}/api/auth/signin`, {
+      const response = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -55,13 +54,16 @@ export function SignInView() {
         throw new Error(data.message || 'Invalid credentials');
       }
 
+      // Store user session/token
       localStorage.setItem('currentUser', JSON.stringify({
         ...data,
         isAdmin: data.role2 === 'ADMIN'
       }));
 
+      // Show success message
       setShowSuccess(true);
       
+      // Use replace instead of push
       setTimeout(() => {
         window.location.replace('/dashboard');
       }, 1500);
