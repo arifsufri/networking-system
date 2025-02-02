@@ -1,7 +1,7 @@
 {
   "version": 2,
   "buildCommand": "yarn build",
-  "outputDirectory": "dist",
+  "outputDirectory": "build",
   "framework": "vite",
   "builds": [
     {
@@ -11,7 +11,7 @@
     {
       "src": "package.json",
       "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
+      "config": { "distDir": "build" }
     }
   ],
   "routes": [
@@ -20,8 +20,11 @@
       "dest": "server.js"
     },
     {
+      "handle": "filesystem"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/"
     }
   ]
 }
