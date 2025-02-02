@@ -45,4 +45,13 @@ export default defineConfig({
     },
   },
   preview: { port: PORT, host: true },
+  build: {
+    outDir: 'build',
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    }
+  },
 });
