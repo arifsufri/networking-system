@@ -1,48 +1,147 @@
-## Minimal UI ([Free version](https://free.minimals.cc/))
+Nexea Event Management System
 
-![license](https://img.shields.io/badge/license-MIT-blue.svg)
+A full-stack event management system built with React, TypeScript, and Express.js.
 
-![preview](public/assets/images/minimal-free-preview.jpg)
+Prerequisites
+- Node.js v20.x
+- MySQL database
+- Yarn package manager
 
-> Free React Admin Dashboard made with Material-UI components and React + Vite.js.
+Setup Instructions
 
-## Pages
+1. Clone the repository:
+git clone <repository-url>
 
-- [Dashboard](https://free.minimals.cc/)
-- [Users](https://free.minimals.cc/user)
-- [Products](https://free.minimals.cc/products)
-- [Blog](https://free.minimals.cc/blog)
-- [Sign in](https://free.minimals.cc/sign-in)
-- [Not found](https://free.minimals.cc/404)
+2. Install dependencies:
+yarn install
 
-## Quick start
+3. Configure environment variables:
+Create a .env file in the root directory with the following content:
+DATABASE_URL=mysql://root:@localhost:3306/networking-system
+VITE_HOST_API=http://localhost:3000
 
-- Clone the repo: `git clone https://github.com/minimal-ui-kit/material-kit-react.git`
-- Recommended: `Node.js v20.x`
-- **Install:** `npm i` or `yarn install`
-- **Start:** `npm run dev` or `yarn dev`
-- **Build:** `npm run build` or `yarn build`
-- Open browser: `http://localhost:3039`
+4. Set up the database:
+npx prisma db push
 
-## Upgrade to PRO Version
+5. Start the development server:
+yarn dev
 
-| Minimal Free                | [Minimal Pro](https://material-ui.com/store/items/minimal-dashboard/)                                   |
-| :-------------------------- | :------------------------------------------------------------------------------------------------------ |
-| **6** Pages                 | **70+** Pages                                                                                           |
-| **Partial** theme customize | **Fully** theme customize                                                                               |
-| -                           | **Next.js** version                                                                                     |
-| -                           | **TypeScript** version (Standard Plus and Extended license)                                             |
-| -                           | Design **Figma** file (Standard Plus and Extended license)                                              |
-| -                           | Authentication with **Amplify**, **Auth0**, **JWT**, **Firebase** and **Supabase**                      |
-| -                           | Light/dark mode, right-to-left, form validation... ([+more components](https://minimals.cc/components)) |
-| -                           | Complete users flows                                                                                    |
-| -                           | 1 year of free updates / 6 months of technical support                                                  |
-| -                           | Learn more: [Package & license](https://docs.minimals.cc/package)                                       |
+The application will be available at:
+Frontend: http://localhost:3039
+Backend API: http://localhost:3000
 
-## License
+# API Documentation
 
-Distributed under the [MIT](https://github.com/minimal-ui-kit/minimal.free/blob/main/LICENSE.md) license.
+## Authentication
 
-## Contact us
+### Sign Up
 
-Email: support@minimals.cc
+- POST /api/auth/signup
+- Creates a new user account
+- Body:
+{
+"fullName": "string",
+"email": "string",
+"password": "string",
+"phoneNumber": "string",
+"role1": "STARTUP|INVESTOR|MENTOR|OTHER",
+"role2": "USER|ADMIN"
+}
+
+
+Sign In
+- POST /api/auth/signin
+- Authenticates a user
+- Body:
+{
+"email": "string",
+"password": "string"
+}
+
+Events
+Get All Events
+- GET /api/events
+- Returns list of all events with participant counts
+
+Create Event
+- POST /api/events
+- Creates a new event
+- Requires admin authentication
+- Body:
+{
+"name": "string",
+"date": "ISO date string",
+"location": "string",
+"description": "string",
+"capacity": "number"
+}
+
+Update Event
+- PUT /api/events/:id
+- Updates an existing event
+- Requires admin authentication
+- Body: Same as Create Event
+
+Delete Event
+- DELETE /api/events/:id
+- Deletes an event and its participants
+- Requires admin authentication
+
+Participants
+Join Event
+- POST /api/participants
+- Registers a participant for an event
+- Body:
+{
+"name": "string",
+"email": "string",
+"role": "STARTUP|INVESTOR|MENTOR|OTHER",
+"eventId": "number"
+}
+
+Get Event Participants
+- GET /api/events/:id/participants
+- Returns list of participants for a specific event
+
+Users (Admin Only)
+Get All Users
+- GET /api/users
+- Returns list of all users
+- Requires admin authentication
+
+Update User
+- PUT /api/users/:id
+- Updates user details
+- Requires admin authentication
+- Body:
+{
+"fullName": "string",
+"email": "string",
+"role1": "string",
+"role2": "string",
+"phoneNumber": "string"
+}
+
+Delete User
+- DELETE /api/users/:id
+- Deletes a user account
+- Requires admin authentication
+
+# Authentication Headers
+For protected routes, include:
+user-id: <user id>
+For admin-only routes, the user must have role2: "ADMIN" in their account.
+
+Error Responses
+All endpoints return standard HTTP status codes:
+200: Success
+201: Created
+400: Bad Request
+401: Unauthorized
+403: Forbidden
+404: Not Found
+500: Internal Server Error
+Error responses include a message:
+{
+"message": "Error description"
+}

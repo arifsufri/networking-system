@@ -10,8 +10,11 @@ import {
   Alert,
   Snackbar,
   MenuItem,
+  Box,
+  Typography,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 type JoinEventModalProps = {
   open: boolean;
@@ -230,10 +233,44 @@ export function JoinEventModal({ open, onClose, eventId, onSuccess }: JoinEventM
           severity="success" 
           sx={{ 
             width: '100%',
-            boxShadow: '0 8px 16px 0 rgba(0, 171, 85, 0.24)',
+            bgcolor: 'primary.main',
+            color: 'common.white',
+            '& .MuiAlert-icon': {
+              color: 'common.white',
+            },
+            boxShadow: (theme) => theme.customShadows?.primary || '0 8px 16px 0 rgba(0, 171, 85, 0.24)',
+            borderRadius: 2,
+            fontSize: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            py: 1.5,
+            '& .MuiAlert-message': {
+              padding: '8px 0',
+            },
+            animation: 'slideIn 0.5s ease-out',
+            '@keyframes slideIn': {
+              from: {
+                transform: 'translateX(100%)',
+                opacity: 0,
+              },
+              to: {
+                transform: 'translateX(0)',
+                opacity: 1,
+              },
+            },
           }}
         >
-          Joined Successfully!
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <CheckCircleOutlineIcon sx={{ fontSize: 24 }} />
+            <Box>
+              <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                Successfully Joined!
+              </Typography>
+              <Typography variant="caption">
+                You have been added to the event
+              </Typography>
+            </Box>
+          </Stack>
         </Alert>
       </Snackbar>
     </>
